@@ -22,7 +22,7 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
-
+        self.capacity = [] = MIN_CAPACITY
 
     def get_num_slots(self):
         """
@@ -35,7 +35,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        
 
     def get_load_factor(self):
         """
@@ -151,3 +151,4 @@ if __name__ == "__main__":
         print(ht.get(f"line_{i}"))
 
     print("")
+    
