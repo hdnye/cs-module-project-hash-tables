@@ -22,7 +22,7 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
-        self.capacity = [] = MIN_CAPACITY
+        self.capacity = [MIN_CAPACITY]
 
     def get_num_slots(self):
         """
@@ -35,7 +35,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        
+        return len(self.capacity)
 
     def get_load_factor(self):
         """
@@ -43,8 +43,17 @@ class HashTable:
 
         Implement this.
         """
+        # Notes on LF: Load Factor is a measure that decides when to increase 
+        # ht capacity to maintain get() & put() O(1) TC.
+        # The default load factor is 0.75(75% of the ht size)
+        # So get_lf() needs to be a trigger to increase size once LF is > 0.75
         # Your code here
+        lf = .75
 
+        if len(self.capacity) >= lf * self.capacity:
+            return self.capacity * 2
+        else: 
+            return self.capacity
 
     def fnv1(self, key):
         """
