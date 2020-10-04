@@ -22,7 +22,15 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
-        self.capacity = [] = MIN_CAPACITY
+        self.capacity = [MIN_CAPACITY] * capacity
+
+    def hash_fun(self, capacity):
+        byte_rep = self.capacity.encode()
+
+        sum = 0
+        for byte in byte_rep:
+            sum += byte
+        return sum % self.capacity
 
     def get_num_slots(self):
         """
@@ -35,7 +43,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        
+        return len(self.capacity)
 
     def get_load_factor(self):
         """
