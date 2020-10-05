@@ -5,7 +5,45 @@ class HashTableEntry:
     def __init__(self, key, value):
         self.key = key
         self.value = value
-        self.next = None
+        self.next = None      
+        self.head = None  
+
+    def find(self, key):
+        cur_node = self.head
+        
+        while cur_node is not None: 
+            # compare cur_node to key we're looking for
+            if cur_node.key == key:
+                return cur_node
+            else: 
+                cur_node = cur_node.next
+        return None
+    
+    def insert_at_head(self, node):
+        # link node to current head
+        node.next = self.head
+        # set pointer to new node
+        self.head = node
+
+    def delete(self, key):
+        # if node to del is head
+        if key == self.head.key:
+            self.head = self.head.next
+            return self.head
+        
+        prev = None
+        curr = self.head
+
+        while curr is not None:
+            # loop until right key is found
+            if curr.key == key:
+                prev.next = curr.next
+                return curr
+            #move pointers
+            prev = curr
+            curr = curr.next
+        return None
+
 
 
 # Hash table can't have fewer than this many slots
@@ -23,14 +61,6 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
         self.capacity = [MIN_CAPACITY] * capacity
-
-    def hash_fun(self, capacity):
-        byte_rep = self.capacity.encode()
-
-        size = 0
-        for byte in byte_rep:
-            size += byte
-        return size % self.capacity
 
     def get_num_slots(self):
         """
@@ -59,7 +89,7 @@ class HashTable:
         # lf = .75
         lf = .7
 
-        if self.get_num_slots() >= lf * self.capacity:
+        if lf >= self.capacity // self.get_num_slots():
             self.resize(self.capacity * 2)
 
     def fnv1(self, key):
@@ -78,18 +108,17 @@ class HashTable:
 
         Implement this, and/or FNV-1.
         """
-       
-        # set var to 5381, this will be the hash multiplier
-        # psuedocode:  
-        hash = 5381
-        ht = self.capacity
-        for i in ht:
-            hash = (( hash << 5) + hash) + ord(i)
-        return hash*ht
-
         # Your code here
-       
-
+        # set var to 5381, this will be the hash multiplier
+        # psuedocode:         
+        # ht = self.capacity
+        # for key in ht:
+        #     hash_num = (( hash_num << 5) + hash_num) + ord(key)
+        # return hash_num*ht        
+        hash = 5381
+        for c in key:
+            hash = (hash * 33) + ord(c)
+        return hash         
 
     def hash_index(self, key):
         """
@@ -97,7 +126,7 @@ class HashTable:
         between within the storage capacity of the hash table.
         """
         #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.djb2(key) % len(self.get_num_slots()-1)
 
     def put(self, key, value):
         """
@@ -108,23 +137,25 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        # index = self.hash_index(key)
-        # if self.capacity[index] is not None:
+        index = self.hash_index(key)
+        self.key = key
+        self.value = value
+        if self.capacity[index] is not None:
             # search the ll for the node with the same key as what we are inserting
+            # if key == index:
             #  if it exists: 
                 # change the value of the node 
-                # return
-
-            # if it doesn't exist do the following:                
-
-
+                # new_index = key
+                # index = new_index
+                # return new_index
+            # if it doesn't exist do the following:            
             # first item in the hash_array is HEAD of LL
             # Create a new hashtableentry & add to head of LL
             # make the new entry the new head
-
-            
+            else:
+                return HashTableEntry.insert_at_head(key, value)            
             # return
-        # self.capacity[index] = HashTableEntry(key, value)
+        self.capacity[index] = HashTableEntry(key, value)
 
 
     def delete(self, key):
@@ -209,43 +240,6 @@ if __name__ == "__main__":
 
     print("")
     
-# Node Class
-class LinkedList:
-    def __init__(self):
-        self.head = None
-    
-    def find(self, key):
-        cur_node = self.head
-        
-        while cur_node is not None: 
-            # compare cur_node to key we're looking for
-            if cur_node.key == key:
-                return cur_node
-            else: 
-                cur_node = cur_node.next
-        return None
-    
-    def insert_at_head(self, node):
-        # link node to current head
-        node.next = self.head
-        # set pointer to new node
-        self.head = node
+      
 
-    def delete(self, key):
-        # if node to del is head
-        if key == self.head.key:
-            self.head = self.head.next
-            return self.head
-        
-        prev = None
-        curr = self.head
-
-        while curr is not None:
-            # loop until right key is found
-            if curr.key == key:
-                prev.next = curr.next
-                return curr
-            #move pointers
-            prev = curr
-            curr = curr.next
-        return None
+   
