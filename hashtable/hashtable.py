@@ -81,11 +81,11 @@ class HashTable:
        
         # set var to 5381, this will be the hash multiplier
         # psuedocode:  
-        # # hash = 5381
-        # ht = self.hash_array
-        # for i in ht:
-        #     hash = (( hash << 5) + hash) + ord(i)
-        # return hash*ht
+        hash = 5381
+        ht = self.capacity
+        for i in ht:
+            hash = (( hash << 5) + hash) + ord(i)
+        return hash*ht
 
         # Your code here
        
@@ -209,3 +209,43 @@ if __name__ == "__main__":
 
     print("")
     
+# Node Class
+class LinkedList:
+    def __init__(self):
+        self.head = None
+    
+    def find(self, key):
+        cur_node = self.head
+        
+        while cur_node is not None: 
+            # compare cur_node to key we're looking for
+            if cur_node.key == key:
+                return cur_node
+            else: 
+                cur_node = cur_node.next
+        return None
+    
+    def insert_at_head(self, node):
+        # link node to current head
+        node.next = self.head
+        # set pointer to new node
+        self.head = node
+
+    def delete(self, key):
+        # if node to del is head
+        if key == self.head.key:
+            self.head = self.head.next
+            return self.head
+        
+        prev = None
+        curr = self.head
+
+        while curr is not None:
+            # loop until right key is found
+            if curr.key == key:
+                prev.next = curr.next
+                return curr
+            #move pointers
+            prev = curr
+            curr = curr.next
+        return None
