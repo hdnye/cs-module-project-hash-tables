@@ -22,7 +22,15 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
-        self.capacity = [MIN_CAPACITY]
+        self.capacity = [MIN_CAPACITY] * capacity
+
+    def hash_fun(self, capacity):
+        byte_rep = self.capacity.encode()
+
+        size = 0
+        for byte in byte_rep:
+            size += byte
+        return size % self.capacity
 
     def get_num_slots(self):
         """
@@ -45,15 +53,14 @@ class HashTable:
         """
         # Notes on LF: Load Factor is a measure that decides when to increase 
         # ht capacity to maintain get() & put() O(1) TC.
-        # The default load factor is 0.75(75% of the ht size)
+        # The default load factor is 0.75(75% of the ht volume / avail space)
         # So get_lf() needs to be a trigger to increase size once LF is > 0.75
         # Your code here
-        lf = .75
+        # lf = .75
+        lf = .7
 
-        if len(self.capacity) >= lf * self.capacity:
-            return self.capacity * 2
-        else: 
-            return self.capacity
+        if self.get_num_slots() >= lf * self.capacity:
+            self.resize(self.capacity * 2)
 
     def fnv1(self, key):
         """
@@ -71,7 +78,17 @@ class HashTable:
 
         Implement this, and/or FNV-1.
         """
+       
+        # set var to 5381, this will be the hash multiplier
+        # psuedocode:  
+        # # hash = 5381
+        # ht = self.hash_array
+        # for i in ht:
+        #     hash = (( hash << 5) + hash) + ord(i)
+        # return hash*ht
+
         # Your code here
+       
 
 
     def hash_index(self, key):
@@ -91,6 +108,23 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # index = self.hash_index(key)
+        # if self.capacity[index] is not None:
+            # search the ll for the node with the same key as what we are inserting
+            #  if it exists: 
+                # change the value of the node 
+                # return
+
+            # if it doesn't exist do the following:                
+
+
+            # first item in the hash_array is HEAD of LL
+            # Create a new hashtableentry & add to head of LL
+            # make the new entry the new head
+
+            
+            # return
+        # self.capacity[index] = HashTableEntry(key, value)
 
 
     def delete(self, key):
@@ -113,7 +147,15 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # index = self.hash_index(key)
+        # Loop through the LL at the hashed index
+        # compare the key to search to the key in the nodes
+        # if you find it, return the value
+        # if not, return None
 
+
+
+        # return self.capacity[index]
 
     def resize(self, new_capacity):
         """
@@ -123,7 +165,13 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # Create new empty array w/ a new size
+        # Doubling is standard
+        # Items now need to be rehashed b/c the f() has changed 
+            # iterate over each item in each ll
+             #rehash the key in each item & store in new array
 
+        # make new array with the new storage
 
 
 if __name__ == "__main__":
