@@ -5,8 +5,7 @@ class HashTableEntry:
     def __init__(self, key, value):
         self.key = key
         self.value = value
-        self.next = None      
-        self.head = None  
+        self.next = None                
 
     def find(self, key):
         cur_node = self.head
@@ -19,7 +18,7 @@ class HashTableEntry:
                 cur_node = cur_node.next
         return None
     
-    def insert_at_head(self, node):
+    def insert_at_head(self, node):       
         # link node to current head
         node.next = self.head
         # set pointer to new node
@@ -126,7 +125,7 @@ class HashTable:
         between within the storage capacity of the hash table.
         """
         #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % len(self.get_num_slots()-1)
+        return self.djb2(key) % self.get_num_slots()
 
     def put(self, key, value):
         """
@@ -142,21 +141,22 @@ class HashTable:
         self.value = value
         if self.capacity[index] is not None:
             # search the ll for the node with the same key as what we are inserting
-            # if key == index:
+            if key == index:
             #  if it exists: 
                 # change the value of the node 
-                # new_index = key
-                # index = new_index
-                # return new_index
+                key = index
+                index = index.next
+                return key
+            elif key != index: 
             # if it doesn't exist do the following:            
             # first item in the hash_array is HEAD of LL
             # Create a new hashtableentry & add to head of LL
             # make the new entry the new head
-            else:
+            # else:
                 return HashTableEntry.insert_at_head(key, value)            
             # return
         self.capacity[index] = HashTableEntry(key, value)
-
+        
 
     def delete(self, key):
         """
@@ -167,7 +167,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        return HashTableEntry.delete(self, key)
 
     def get(self, key):
         """
@@ -183,7 +183,7 @@ class HashTable:
         # compare the key to search to the key in the nodes
         # if you find it, return the value
         # if not, return None
-
+        return HashTableEntry.find(self, key)
 
 
         # return self.capacity[index]
@@ -203,6 +203,12 @@ class HashTable:
              #rehash the key in each item & store in new array
 
         # make new array with the new storage
+        new_ht = HashTable(new_capacity)
+        for key in self.capacity:
+            value = self.get(key)
+            new_ht.put(key, value)
+        return new_ht
+
 
 
 if __name__ == "__main__":
