@@ -9,7 +9,7 @@ class HashTableEntry:
         self.next = None     
         self.head = None           
 
-    def find(self, key):
+    def find(self, key, value):
         cur_node = self.head
         
         while cur_node is not None: 
@@ -22,8 +22,8 @@ class HashTableEntry:
     
     def insert_at_head(self, node): 
         # check if head exists
-        # if self.head is None:               
-        #     self.head = node  
+        if self.head is None:               
+            self.head = node  
         # link node to current head
         node.next = self.head
         # set pointer to new node
@@ -91,7 +91,7 @@ class HashTable:
         # The default load factor is 0.75(75% of the ht volume / avail space)
         # So get_lf() needs to be a trigger to increase size once LF is > 0.75
         # Your code here
-        # lf = .75
+        # lf = .7
         lf = .7
 
         if lf >= self.capacity // self.get_num_slots():
@@ -146,7 +146,7 @@ class HashTable:
         if index is None:
             return HashTableEntry.insert_at_head(key, value)            
             # return
-        self.capacity[index] = HashTableEntry(key, value)
+        # self.capacity[index] = HashTableEntry(key, value)
         
 
     def delete(self, key):
@@ -164,7 +164,7 @@ class HashTable:
         else: 
             return None
 
-    def get(self, key, value):
+    def get(self, key):
         """
         Retrieve the value stored with the given key.
 
@@ -177,7 +177,7 @@ class HashTable:
         # Loop through the LL at the hashed index
         # compare the key to search to the key in the nodes
         # if you find it, return the value
-        # if not, return None
+        # if not, return None               
         if index is not None:         
             return HashTableEntry.find(key, value)
         else: 
@@ -199,7 +199,7 @@ class HashTable:
              #rehash the key in each item & store in new array
 
         # make new array with the new storage
-        new_ht = HashTable(new_capacity)
+        new_ht = HashTable(new_capacity)               
         for key in self.capacity:            
             new_ht.put(key, value)
         return new_ht
