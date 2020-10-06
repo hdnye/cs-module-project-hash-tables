@@ -1,3 +1,4 @@
+
 class HashTableEntry:
     """
     Linked List hash table key/value pair
@@ -5,7 +6,8 @@ class HashTableEntry:
     def __init__(self, key, value):
         self.key = key
         self.value = value
-        self.next = None                
+        self.next = None     
+        self.head = None           
 
     def find(self, key):
         cur_node = self.head
@@ -18,7 +20,10 @@ class HashTableEntry:
                 cur_node = cur_node.next
         return None
     
-    def insert_at_head(self, node):       
+    def insert_at_head(self, node): 
+        # check if head exists
+        # if self.head is None:               
+        #     self.head = node  
         # link node to current head
         node.next = self.head
         # set pointer to new node
@@ -60,6 +65,7 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
         self.capacity = [MIN_CAPACITY] * capacity
+        
 
     def get_num_slots(self):
         """
@@ -100,7 +106,6 @@ class HashTable:
 
         # Your code here
 
-
     def djb2(self, key):
         """
         DJB2 hash, 32-bit
@@ -137,23 +142,9 @@ class HashTable:
         """
         # Your code here
         index = self.hash_index(key)
-        self.key = key
-        self.value = value
-        if self.capacity[index] is not None:
-            # search the ll for the node with the same key as what we are inserting
-            if key == index:
-            #  if it exists: 
-                # change the value of the node 
-                key = index
-                index = index.next
-                return key
-            elif key != index: 
-            # if it doesn't exist do the following:            
-            # first item in the hash_array is HEAD of LL
-            # Create a new hashtableentry & add to head of LL
-            # make the new entry the new head
-            # else:
-                return HashTableEntry.insert_at_head(key, value)            
+        
+        if index is None:
+            return HashTableEntry.insert_at_head(key, value)            
             # return
         self.capacity[index] = HashTableEntry(key, value)
         
@@ -167,9 +158,13 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        return HashTableEntry.delete(self, key)
+        index = self.hash_index(key)
+        if index is not None:
+            return HashTableEntry.delete(self, key)
+        else: 
+            return None
 
-    def get(self, key):
+    def get(self, key, value):
         """
         Retrieve the value stored with the given key.
 
@@ -178,15 +173,16 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        # index = self.hash_index(key)
+        index = self.hash_index(key)  
         # Loop through the LL at the hashed index
         # compare the key to search to the key in the nodes
         # if you find it, return the value
         # if not, return None
-        return HashTableEntry.find(self, key)
+        if index is not None:         
+            return HashTableEntry.find(key, value)
+        else: 
+            return None
 
-
-        # return self.capacity[index]
 
     def resize(self, new_capacity):
         """
@@ -204,8 +200,7 @@ class HashTable:
 
         # make new array with the new storage
         new_ht = HashTable(new_capacity)
-        for key in self.capacity:
-            value = self.get(key)
+        for key in self.capacity:            
             new_ht.put(key, value)
         return new_ht
 
@@ -231,7 +226,7 @@ if __name__ == "__main__":
 
     # Test storing beyond capacity
     for i in range(1, 13):
-        print(ht.get(f"line_{i}"))
+        print(ht.get(f"line_{i}" ))
 
     # Test resizing
     old_capacity = ht.get_num_slots()
