@@ -4,7 +4,7 @@ def word_count(s):
   
     for words in s.split():
         words = words.strip(r": , . - + = / \ | [] {}() * ^ & ")
-        words = words.lower()
+        words = words.lower()        
         if words in d:
             d[words] += 1
         else:
