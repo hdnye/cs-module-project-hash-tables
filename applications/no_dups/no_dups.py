@@ -1,7 +1,15 @@
 def no_dups(s):
     # Your code here
-
-
+    l = []
+    
+    for words in s:
+        words = s.split()
+        for word in words:
+            if word not in l:
+                l.append(word)
+        else: 
+            return l   
+   
 
 if __name__ == "__main__":
     print(no_dups(""))
