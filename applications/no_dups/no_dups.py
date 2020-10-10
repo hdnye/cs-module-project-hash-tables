@@ -1,7 +1,9 @@
 def no_dups(s):
     # Your code here
+    
     # set(). built-in f() only returns distinct elements
     # .split() method separates the words in the str
+    # results = '' to initialize an empty string & return clean strings
 
     my_list, words, result = set(), s.split(), ''
    

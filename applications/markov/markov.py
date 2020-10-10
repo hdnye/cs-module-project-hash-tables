@@ -1,9 +1,9 @@
 import random
 
 # Read in all the words in one go
-with open("input.txt") as f:
+with open("applications\markov\input.txt", 'r') as f:
     words = f.read()
-
+    print(words)
 # TODO: analyze which words can follow other words
 # Your code here
 
