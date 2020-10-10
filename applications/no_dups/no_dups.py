@@ -1,15 +1,17 @@
 def no_dups(s):
     # Your code here
-    l = []
+    # set() built-in f() only returns distinct elements
+    # .split() method separates the words in the str
+    my_list = set()
+    words = s.split()
+    result = ''
+
+    for word in words: 
+        if word not in my_list:
+            my_list.add(word)
+            result += word + ' '
     
-    for words in s:
-        words = s.split()
-        for word in words:
-            if word not in l:
-                l.append(word)
-        else: 
-            return l   
-   
+    return result[:-1]
 
 if __name__ == "__main__":
     print(no_dups(""))
