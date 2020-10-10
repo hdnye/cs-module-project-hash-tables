@@ -1,11 +1,10 @@
 def no_dups(s):
     # Your code here
-    # set() built-in f() only returns distinct elements
+    # set(). built-in f() only returns distinct elements
     # .split() method separates the words in the str
-    my_list = set()
-    words = s.split()
-    result = ''
 
+    my_list, words, result = set(), s.split(), ''
+   
     for word in words: 
         if word not in my_list:
             my_list.add(word)
