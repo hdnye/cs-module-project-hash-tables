@@ -76,7 +76,7 @@ Stop words are words that end in any of the punctuation `.?!`, or that
 punctuation followed by a `"`.
 
 Hints:
-
+  
 * `random.choice()` can choose a random word out of a list.
 * `print(s, end=" ")` will print a space after every word instead of a
   newline.
